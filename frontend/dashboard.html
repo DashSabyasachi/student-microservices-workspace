@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - Student Management</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="topbar">
+        <h1>Student Dashboard</h1>
+        <div>
+            <span id="welcome"></span>
+            <button id="logoutBtn" class="btn-danger btn-small">Logout</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div id="msg" class="message"></div>
+
+        <div class="toolbar">
+            <a href="add-student.html" class="btn">+ Add Student</a>
+            <input type="number" id="searchId" placeholder="Student ID" min="1">
+            <button id="searchBtn" class="btn-secondary">View by ID</button>
+            <button id="showAllBtn" class="btn-secondary">Show All</button>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Full Name</th><th>Email</th><th>Age</th>
+                        <th>Course</th><th>Phone</th><th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentBody"></tbody>
+            </table>
+        </div>
+
+        <div id="pagination" class="pagination">
+            <label>Rows per page
+                <select id="pageSize">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </label>
+            <span id="pageInfo"></span>
+            <div id="pageButtons" class="page-buttons"></div>
+        </div>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

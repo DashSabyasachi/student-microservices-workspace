@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Management System</title>
+    <script src="js/api.js"></script>
+</head>
+<body>
+    <script>
+        // Logged in -> dashboard, otherwise -> login
+        window.location.href = getToken() ? 'dashboard.html' : 'login.html';
+    </script>
+</body>
+</html>

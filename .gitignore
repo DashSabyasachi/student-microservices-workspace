@@ -1,0 +1,23 @@
+# Maven / Spring Boot
+target/
+*.class
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# Logs
+*.log
+
+# Environment / secrets
+.env
+.env.*
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

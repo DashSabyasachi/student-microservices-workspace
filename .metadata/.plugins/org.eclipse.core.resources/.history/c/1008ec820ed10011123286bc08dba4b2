@@ -1,0 +1,50 @@
+package com.example.authservice.controller;
+
+import com.example.authservice.dto.LoginRequest;
+import com.example.authservice.dto.RegisterRequest;
+import com.example.authservice.service.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/auth/register")
+public class AuthController {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Map<String, String>> register(@Valid @RequestBody RegisterRequest req) {
+        authService.register(req);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Map.of("message", "Registration successful"));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody LoginRequest req) {
+        return ResponseEntity.ok(authService.login(req));
+    }
+
+    // Called by the API Gateway on every protected request.
+    // If the request reaches this method, JwtAuthFilter already accepted the token
+    // (valid signature, not expired, not logged out). Otherwise Spring answers 401 before this runs.
+    @GetMapping("/validate")
+    public ResponseEntity<Map<String, String>> validate(Authentication authentication) {
+        return ResponseEntity.ok(Map.of("valid", "true", "email", authentication.getName()));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout(
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        authService.logout(authHeader);
+        return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
+    }
+}

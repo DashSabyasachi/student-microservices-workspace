@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      # CORS is handled ONLY here (the frontend on localhost:5500 talks only to the gateway)
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "http://localhost:*"
+              - "http://127.0.0.1:*"
+            allowedMethods: [GET, POST, PUT, DELETE, OPTIONS]
+            allowedHeaders: "*"
+      routes:
+        # /api/auth/**  ->  auth-service   (lb:// = look the name up in Eureka)
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+
+        # /api/students/**  ->  student-service   (token is checked by JwtValidationFilter first)
+        - id: student-service
+          uri: lb://student-service
+          predicates:
+            - Path=/api/students/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
